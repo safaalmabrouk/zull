@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 class Game
 {
@@ -38,6 +39,9 @@ class Game
 
 		office.AddExit("west", lab);
 
+		theatre.AddExit("up", office);
+		office.AddExit("down", theatre);
+
 		// Create your Items here
 		// ...
 		// And add them to the Rooms
@@ -63,6 +67,7 @@ class Game
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
 		Console.ReadLine();
+		
 	}
 
 	// Print out the opening message for the player.
@@ -152,5 +157,6 @@ class Game
 	{
     	Console.WriteLine(currentRoom.GetLongDescription());
 	}
-
+ 
 }
+                                                                                            
