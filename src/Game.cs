@@ -7,6 +7,8 @@ class Game
 	// Private fields
 	private Parser parser;
 	private Player player;
+	private bool finished;
+	private Room winRoom;
 
 	// Constructor
 	public Game()
@@ -50,6 +52,7 @@ class Game
 
 		// Start game outside
 		player.CurrentRoom = outside;
+		winRoom = lab;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -60,10 +63,14 @@ class Game
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the player wants to quit.
 		bool finished = false;
-		while (!finished)
+		while (!finished && player.IsAlive())
 		{
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
+		}
+		if (!player.IsAlive())
+		{
+			Console.WriteLine("You died! Game over.");
 		}
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
@@ -102,6 +109,11 @@ class Game
 				break;
 			case "go":
 				GoRoom(command);
+				if (player.CurrentRoom == winRoom)
+				{
+					Console.WriteLine("You reached the lab. You win!");
+					return true;
+				}
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -153,8 +165,8 @@ class Game
 			return;
 		}
 
-		player.CurrentRoom = nextRoom;
 		player.Damage(10);
+		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 	// Look around in the current room
