@@ -8,6 +8,12 @@ class Room
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private List<Item> items;
+	private Inventory chest;
+
+	public Inventory Chest
+	{
+		get { return chest; }
+	}
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
@@ -16,6 +22,8 @@ class Room
 		description = desc;
 		exits = new Dictionary<string, Room>();
 		items = new List<Item>();
+
+		chest = new Inventory(999999);
 
 	}
 
@@ -46,17 +54,12 @@ class Room
 	}
 
 
-	private string GetItemsString()
+   private string GetItemsString()
 	{
-		if (items.Count == 0)
-		return "No items here.";
-
-		string result = "Items:";
-		foreach (Item item in items)
-		{
-			result += " " + item.Description;
-		}
-		return result;
+    	string shown = chest.Show();   // chest هو Inventory
+    	if (shown == "No items")
+        return "No items here.";
+   		return "Items: " + shown;
 	}
 
 	// Return the description of the room.

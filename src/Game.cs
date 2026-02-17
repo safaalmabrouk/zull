@@ -47,8 +47,9 @@ class Game
 
 		Item book = new Item(1, "A dusty old book");
 		Item key = new Item(1, "A small rusty key");
-		outside.AddItem(book);
-		lab.AddItem(key);
+
+		outside.Chest.Put("book", book);
+		lab.Chest.Put("key", key);
 
 		// Create your Items here
 		// ...
@@ -128,6 +129,22 @@ class Game
 				break;
 			case "status":
 			    PrintStatus();
+				break;
+			case "take":
+				if (command.SecondWord == null)
+				{
+					Console.WriteLine("Take what?");
+					break;
+				}
+				player.TakeFromChest(command.SecondWord);
+				break;
+			case "drop":
+				if (command.SecondWord == null)
+				{
+					Console.WriteLine("Drop what?");
+					break;
+				}
+				player.DropToChest(command.SecondWord);
 				break;
 		}
 
