@@ -45,6 +45,11 @@ class Game
 		theatre.AddExit("up", office);
 		office.AddExit("down", theatre);
 
+		Item book = new Item(1, "A dusty old book");
+		Item key = new Item(1, "A small rusty key");
+		outside.AddItem(book);
+		lab.AddItem(key);
+
 		// Create your Items here
 		// ...
 		// And add them to the Rooms

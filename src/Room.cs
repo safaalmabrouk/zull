@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net.ServerSentEvents;
 
 class Room
 {
 	// Private fields
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
+	private List<Item> items;
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
@@ -12,12 +15,48 @@ class Room
 	{
 		description = desc;
 		exits = new Dictionary<string, Room>();
+		items = new List<Item>();
+
 	}
 
 	// Define an exit for this room.
 	public void AddExit(string direction, Room neighbor)
 	{
 		exits.Add(direction, neighbor);
+	}
+
+	public void AddItem(Item item)
+	{
+		items.Add(item);
+	}
+
+	public Item GetItem(string description)
+	{
+		foreach (Item item in items)
+		{
+			if (item.Description == description)
+				return item;
+		}
+		return null;
+	} 
+
+	public void RemoveItem(Item item)
+	{
+		items.Remove(item);
+	}
+
+
+	private string GetItemsString()
+	{
+		if (items.Count == 0)
+		return "No items here.";
+
+		string result = "Items:";
+		foreach (Item item in items)
+		{
+			result += " " + item.Description;
+		}
+		return result;
 	}
 
 	// Return the description of the room.
@@ -35,6 +74,7 @@ class Room
 		str += description;
 		str += ".\n";
 		str += GetExitString();
+		str += "\n" + GetItemsString();
 		return str;
 	}
 
